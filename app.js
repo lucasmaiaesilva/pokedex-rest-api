@@ -8,21 +8,38 @@ var app = express();
 // Set the port for the server
 var port = 3003;
 
-// set the schema for the database
-var Schema = mongoose.Schema;
-var pokedexSchema = new Schema({
-	name: String
+// verify the connection of mongoDB
+var db = mongoose.connection;
+// throw errors
+db.on('error', console.error);
+
+db.once('open', function(){
+	console.log('conectado ao mongoDB.');
+	// TODOS os Esquemas, modelos e consultas aqui
+
+	// set the schema for the database
+	var Schema = mongoose.Schema;
+	var pokedexSchema = new Schema({
+		name: String
+	});
+
+	// creating a model *1st param* nome da collection, *2st param* schema 
+	var Pokemon = mongoose.model('pokedex', pokedexSchema);
+
+	app.get('/pokemon', function(req, res){
+		res.send('<h1>Listagem de Todos os pokemons</h1>');
+		//console.log('usuario acessou a pagina /pokemon');
+
+	});
+
+	app.get('/pokemon/:id', function(req, res){
+		res.send('<h1>Mostrar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
+		//console.log('usuario acessou a pagina /pokemon/numero');
+	});
+
 });
 
-app.get('/pokemon', function(req, res){
-	res.send('<h1>Listagem de Todos os pokemons</h1>');
-	//console.log('usuario acessou a pagina /pokemon');
-});
-
-app.get('/pokemon/:id', function(req, res){
-	res.send('<h1>Mostrar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
-	//console.log('usuario acessou a pagina /pokemon/numero');
-});
+mongoose.connect('mongodb://localhost/pokemon');
 
 app.listen(port, function(){
 	console.log('server running on port: ' + port);
