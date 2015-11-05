@@ -29,7 +29,6 @@ db.once('open', function(){
 	app.get('/pokemon', function(req, res) {
 
 		Pokemon.find().then(function(pokemons) {
-			console.log(pokemons);
 			res.json( pokemons );
 		});
 
