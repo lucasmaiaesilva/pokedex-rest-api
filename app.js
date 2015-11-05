@@ -20,16 +20,21 @@ db.once('open', function(){
 	// set the schema for the database
 	var Schema = mongoose.Schema;
 	var pokedexSchema = new Schema({
-		name: String
+		nome: String
 	});
 
 	// creating a model *1st param* nome da collection, *2st param* schema 
 	var Pokemon = mongoose.model('pokedex', pokedexSchema);
 
-	app.get('/pokemon', function(req, res){
-		res.send('<h1>Listagem de Todos os pokemons</h1>');
-		//console.log('usuario acessou a pagina /pokemon');
+	Pokemon.find({}, function(err, pokemons){
+		if (err) throw err;
+		console.log(pokemons);
+	});
 
+
+	app.get('/api/pokemon', function(req, res, next){
+		res.json({ message: 'Listagem de Todos os pokemons' });
+		//console.log('usuario acessou a pagina /pokemon');
 	});
 
 	app.get('/pokemon/:id', function(req, res){
