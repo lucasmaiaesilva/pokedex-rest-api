@@ -26,11 +26,26 @@ db.once('open', function(){
 	// creating a model *1st param* nome da collection, *2st param* schema 
 	var Pokemon = mongoose.model('pokedex', pokedexSchema);
 
-	app.get('/pokemon', function(req, res){
-		res.send('<h1>Listagem de Todos os pokemons</h1>');
-		//console.log('usuario acessou a pagina /pokemon');
+	app.get('/pokemon', function(req, res) {
+
+		Pokemon.find().then(function(pokemons) {
+			console.log(pokemons);
+			res.json( pokemons );
+		});
 
 	});
+
+	app.get('/pokemon/create/:name', function(req, res){
+
+		var _pokemon = {name: req.params.name};
+
+		Pokemon.create(_pokemon).then(function(pokemons) {
+			console.log(pokemons);
+			res.json( pokemons );
+		});
+
+	});
+
 
 	app.get('/pokemon/:id', function(req, res){
 		res.send('<h1>Mostrar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
