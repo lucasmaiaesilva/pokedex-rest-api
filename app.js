@@ -2,11 +2,17 @@ var express = require('express');
 var mongoose = require('mongoose');
 var consolidate = require('consolidate');
 
-
 // creating a variable for use express
 var app = express();
 // Set the port for the server
 var port = 3003;
+
+// var poolSize indica quantas conexões serão feitas ao banco no momento 
+// em que for acessada a aplicação
+
+var options = {
+	server: { poolSize: 1 }
+}
 
 // verify the connection of mongoDB
 var db = mongoose.connection;
@@ -26,10 +32,20 @@ db.once('open', function(){
 	// creating a model *1st param* nome da collection, *2st param* schema 
 	var Pokemon = mongoose.model('pokedex', pokedexSchema);
 
+/*	
+	exemplo de inserção no banco
+	bulbasauro.save(function(err){
+		if (err) throw err;
+
+		console.log('pokemon inserido com sucesso!');
+	});
+*/
+
 	app.get('/pokemon', function(req, res) {
 
-		Pokemon.find().then(function(pokemons) {
+		Pokemon.find({}, { _id:0, nome: 1}).then(function(pokemons) {
 			res.json( pokemons );
+		});
 	});
 
 	app.get('/pokemon/create/:name', function(req, res){
@@ -51,7 +67,7 @@ db.once('open', function(){
 
 });
 
-mongoose.connect('mongodb://localhost/pokemon');
+mongoose.connect('mongodb://localhost/pokemon', options);
 
 app.listen(port, function(){
 	console.log('server running on port: ' + port);
