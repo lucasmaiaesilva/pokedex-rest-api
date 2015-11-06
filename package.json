@@ -8,11 +8,10 @@
   },
   "author": "Lucas Maia e Silva",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
+    "consolidate": "^0.13.1",
     "express": "^4.13.3",
     "mongoose": "^4.2.3"
-  },
-  "dependencies": {
-    "consolidate": "^0.13.1"
+
   }
 }
