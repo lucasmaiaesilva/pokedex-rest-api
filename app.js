@@ -26,14 +26,17 @@ db.once('open', function(){
 	// set the schema for the database
 	var Schema = mongoose.Schema;
 	var pokedexSchema = new Schema({
+		_id: Number, 
 		nome: String
 	});
 
 	// creating a model *1st param* nome da collection, *2st param* schema 
 	var Pokemon = mongoose.model('pokedex', pokedexSchema);
 
-/*	
-	exemplo de inserção no banco
+/*
+	var bulbasauro = new Pokemon({_id:2, nome: "Abra"});
+	
+	// exemplo de inserção no banco
 	bulbasauro.save(function(err){
 		if (err) throw err;
 
@@ -41,13 +44,14 @@ db.once('open', function(){
 	});
 */
 
-	app.get('/pokemon', function(req, res) {
+	app.get('api/pokemons', function(req, res) {
 
-		Pokemon.find({}, { _id:0, nome: 1}).then(function(pokemons) {
+		Pokemon.find({}).then(function(pokemons) {
 			res.json( pokemons );
 		});
 	});
 
+/*
 	app.get('/pokemon/create/:name', function(req, res){
 
 		var _pokemon = {name: req.params.name};
@@ -58,11 +62,13 @@ db.once('open', function(){
 		});
 
 	});
+*/
 
-
-	app.get('/pokemon/:id', function(req, res){
+	app.get('/api/pokemons/:id', function(req, res){
 		res.send('<h1>Mostrar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
-		//console.log('usuario acessou a pagina /pokemon/numero');
+		Pokemon.find({_id: req.params.id}).then(function(pokemon){
+			console.log(pokemon);
+		});
 	});
 
 });
