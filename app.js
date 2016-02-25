@@ -1,6 +1,7 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var consolidate = require('consolidate');
+var Pokemon = require('./models/pokemon.js');
 
 // creating a variable for use express
 var app = express();
@@ -24,14 +25,6 @@ db.once('open', function(){
 	// TODOS os Esquemas, modelos e consultas aqui
 
 	// set the schema for the database
-	var Schema = mongoose.Schema;
-	var pokedexSchema = new Schema({
-		_id: Number, 
-		nome: String
-	});
-
-	// creating a model *1st param* nome da collection, *2st param* schema 
-	var Pokemon = mongoose.model('pokedex', pokedexSchema);
 
 /*
 	var bulbasauro = new Pokemon({_id:2, nome: "Abra"});
@@ -70,6 +63,14 @@ db.once('open', function(){
 			console.log(pokemon);
 		});
 	});
+
+	app.put('/api/pokemons/:id', function(req, res){
+		res.send('<h1>Alterar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
+		Pokemon.find({_id: req.params.id}).then(function(pokemon){
+			console.log(pokemon);
+		});
+	});
+
 
 });
 
