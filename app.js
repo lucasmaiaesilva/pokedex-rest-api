@@ -1,82 +1,30 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var consolidate = require('consolidate');
-var Pokemon = require('./models/pokemon.js');
+var express    = require('express');        // call express
+var app        = express();                 // define our app using express
+var bodyParser = require('body-parser');
 
-// creating a variable for use express
-var app = express();
-// Set the port for the server
-var port = 3003;
+// configure app to use bodyParser()
+// this will let us get the data from a POST
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// var poolSize indica quantas conexões serão feitas ao banco no momento 
-// em que for acessada a aplicação
+var port = process.env.PORT || 8080;        // set our port
 
-var options = {
-	server: { poolSize: 1 }
-}
+// ROUTES FOR OUR API
+// =============================================================================
+var router = express.Router();              // get an instance of the express Router
 
-// verify the connection of mongoDB
-var db = mongoose.connection;
-// throw errors
-db.on('error', console.error);
-
-db.once('open', function(){
-	console.log('conectado ao mongoDB.');
-	// TODOS os Esquemas, modelos e consultas aqui
-
-	// set the schema for the database
-
-/*
-	var bulbasauro = new Pokemon({_id:2, nome: "Abra"});
-	
-	// exemplo de inserção no banco
-	bulbasauro.save(function(err){
-		if (err) throw err;
-
-		console.log('pokemon inserido com sucesso!');
-	});
-*/
-
-	app.get('api/pokemons', function(req, res) {
-
-		Pokemon.find({}).then(function(pokemons) {
-			res.json( pokemons );
-		});
-	});
-
-/*
-	app.get('/pokemon/create/:name', function(req, res){
-
-		var _pokemon = {name: req.params.name};
-
-		Pokemon.create(_pokemon).then(function(pokemons) {
-			console.log(pokemons);
-			res.json( pokemons );
-		});
-
-	});
-*/
-
-	app.get('/api/pokemons/:id', function(req, res){
-		res.send('<h1>Mostrar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
-		Pokemon.find({_id: req.params.id}).then(function(pokemon){
-			console.log(pokemon);
-		});
-	});
-
-	app.put('/api/pokemons/:id', function(req, res){
-		res.send('<h1>Alterar somente o pokemón com o identificador: ' + req.params.id + '</h3>');
-		Pokemon.find({_id: req.params.id}).then(function(pokemon){
-			console.log(pokemon);
-		});
-	});
-
-
+// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+router.get('/', function(req, res) {
+    res.json({ message: 'hooray! welcome to our api!' });   
 });
 
-mongoose.connect('mongodb://localhost/pokemon', options);
+// more routes for our API will happen here
 
-app.listen(port, function(){
-	console.log('server running on port: ' + port);
-	console.log('file on dirname: ' + __dirname);
-});
+// REGISTER OUR ROUTES -------------------------------
+// all of our routes will be prefixed with /api
+app.use('/api', router);
+
+// START THE SERVER
+// =============================================================================
+app.listen(port);
+console.log('Magic happens on port ' + port);
