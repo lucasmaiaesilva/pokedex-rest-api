@@ -2,11 +2,16 @@
 
 Topics to write about this lib
 
-1. What your project does
-2. How to install it
-3. Example usage
-4. How to set up the dev environment
-5. How to ship a change
-6. Change log
-7. License and author info
+## What this project does?
 
+...
+
+## Get Started
+
+...
+
+## How to Help
+
+Just leave your Pull Request and I will be very happy to accept.
+
+Made by Lucas Maia e Silva
