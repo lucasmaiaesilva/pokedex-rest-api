@@ -8,7 +8,7 @@ This project is created to registrate how to make a server side pokedex with Mon
 
 ## Get Started
 
-...
+To install just run `npm install` to install modules and than `npm start`
 
 ## How to Help
 
