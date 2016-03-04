@@ -4,7 +4,7 @@ Topics to write about this lib
 
 ## What this project does?
 
-This project is created to registrate how to make a server side pokedex with MongoDB and Express API Restful
+This project is created to registrate how to make a server side pokedex with MongoDB and API Restful Express
 
 ## Get Started
 
