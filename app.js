@@ -9,11 +9,6 @@ var Pokemon    = require('./models/pokemon');
 var mongoose   = require('mongoose');
 mongoose.connect('mongodb://localhost/pokemon', { poolSize: 1 }); // connect to our database
 
-var db = mongoose.connection;
-db.once('open', function(){
-	console.log('conected to MongoDB');
-});
-
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,10 +29,27 @@ router.use(function(req, res, next) {
 
 // test route to make sure everything is working (accessed at GET http://localhost:8080/api)
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+	res.json({ message: 'hooray! welcome to our api!' });   
 });
 
 // more routes for our API will happen here
+router.route('/pokemons')
+
+    // create a bear (accessed at POST http://localhost:8080/api/pokemons)
+    .post(function(req, res) {
+
+        var pokemon = new Pokemon();      // create a new instance of the Pokemon model
+        pokemon.nome = req.body.nome;  // set the pokemon name (comes from the request)
+
+        // save the bear and check for errors
+        pokemon.save(function(err) {
+			if (err)
+ 				res.send(err);
+
+			res.json({ message: 'Pokemon created!' });
+		});
+        
+	});
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

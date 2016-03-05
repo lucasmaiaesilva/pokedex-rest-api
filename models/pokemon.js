@@ -2,7 +2,7 @@ var mongoose     = require('mongoose');
 
 var Schema = mongoose.Schema;
 var pokedexSchema = new Schema({
-	_id: Number, 
+	//_id: Number, 
 	nome: String
 });
 
