@@ -49,7 +49,18 @@ router.route('/pokemons')
 			res.json({ message: 'Pokemon created!' });
 		});
         
-	});
+	})
+
+    // get all the bears (accessed at GET http://localhost:8080/api/pokemons)
+    .get(function(req, res) {
+        Pokemon.find(function(err, pokemons) {
+            if (err)
+                res.send(err);
+
+            res.json(pokemons);
+        });
+    });
+
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
