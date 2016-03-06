@@ -51,7 +51,7 @@ router.route('/pokemons')
         
 	})
 
-    // get all the bears (accessed at GET http://localhost:8080/api/pokemons)
+    // get all the pokemons (accessed at GET http://localhost:8080/api/pokemons)
     .get(function(req, res) {
         Pokemon.find(function(err, pokemons) {
             if (err)
@@ -60,6 +60,42 @@ router.route('/pokemons')
             res.json(pokemons);
         });
     });
+
+
+router.route('/pokemons/:pokemon_id')
+
+    // get the pokemon with that id (accessed at GET http://localhost:8080/api/pokemons/:pokemon_id)
+    .get(function(req, res) {
+        Pokemon.findById(req.params.pokemon_id, function(err, pokemon) {
+            if (err)
+                res.send(err);
+            res.json(pokemon);
+        });
+    })
+
+    // update the pokemon with this id (accessed at PUT http://localhost:8080/api/pokemons/:pokemon_id)
+    .put(function(req, res) {
+
+        // use our pokemon model to find the pokemon we want
+        Pokemon.findById(req.params.pokemon_id, function(err, pokemon) {
+
+            if (err)
+                res.send(err);
+
+            pokemon.nome = req.body.nome;  // update the pokemons info
+
+            // save the pokemon
+            pokemon.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({ message: 'Pokemon updated!' });
+            });
+
+        });
+    });
+
+
 
 
 // REGISTER OUR ROUTES -------------------------------
