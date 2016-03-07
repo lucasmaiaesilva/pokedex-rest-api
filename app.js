@@ -93,8 +93,20 @@ router.route('/pokemons/:pokemon_id')
             });
 
         });
-    });
+    })
 
+
+    // delete the bear with this id (accessed at DELETE http://localhost:8080/api/pokemons/:pokemon_id)
+    .delete(function(req, res) {
+        Pokemon.remove({
+            _id: req.params.pokemon_id
+        }, function(err, pokemon) {
+            if (err)
+                res.send(err);
+
+            res.json({ message: 'Pokemon successfully deleted' });
+        });
+    });
 
 
 
