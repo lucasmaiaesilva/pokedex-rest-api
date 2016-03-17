@@ -26,13 +26,13 @@ router.get('/', function(req, res) {
 // more routes for our API will happen here
 router.route('/pokemons')
 
-    // create a bear (accessed at POST http://localhost:8080/api/pokemons)
+    // create a pokemon (accessed at POST http://localhost:8080/api/pokemons)
     .post(function(req, res) {
 
         var pokemon = new Pokemon(); // create a new instance of the Pokemon model
         pokemon.nome = req.body.nome; // set the pokemon name (comes from the request)
 
-        // save the bear and check for errors
+        // save the pokemon and check for errors
         pokemon.save(function(err) {
 			if (err)
  				res.send(err);
