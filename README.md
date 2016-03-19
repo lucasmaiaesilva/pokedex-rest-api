@@ -10,7 +10,7 @@ This project is created to registrate how to make a server side pokedex with Mon
 
 To install just run `npm install` to install modules and than `npm start`
 Is really important to have the MongoDb installed on your computer, and run `mongod`
-services. 
+service. 
 
 You have to create a db called `pokemon`.
 
